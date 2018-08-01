@@ -123,7 +123,7 @@ app.get("/manual", (req, res) => {
   if (title && title.length > 256) return res.status(400).send("Bad Request");
   if (siteName && siteName.length > 256) return res.status(400).send("Bad Request");
   if (description && description.length > 2048) return res.status(400).send("Bad Request");
-  if (color && color.length !== 6 || isNaN(parseInt(color, 16))) return res.status(400).send("Bad Request");
+  if (color && (color.length !== 6 || isNaN(parseInt(color, 16)))) return res.status(400).send("Bad Request");
   if (!title && !description) {
     title = "A website allowing you to send embeds in Discord."
     description = `Just use the query parameters "title" and "description".`;
@@ -154,7 +154,7 @@ app.post("/api/v1/createEmbed", (req, res) => {
   if (embed.title && embed.title.length > 256) return res.status(400).send("Bad Request");
   if (embed.siteName && embed.siteName.length > 256) return res.status(400).send("Bad Request");
   if (embed.description && embed.description.length > 2048) return res.status(400).send("Bad Request");
-  if (embed.color && embed.color.length !== 6 || isNaN(parseInt(embed.color, 16))) return res.status(400).send("Bad Request");
+  if (embed.color && (embed.color.length !== 6 || isNaN(parseInt(embed.color, 16)))) return res.status(400).send("Bad Request");
   embed.expire = Date.now() + LINK_EXPIRE * 1000;
   res.send(link);
 });
