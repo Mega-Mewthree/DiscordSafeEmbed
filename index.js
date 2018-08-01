@@ -35,6 +35,11 @@ app.enable("trust proxy"); // If running behind a reverse proxy, else comment ou
 app.use(express.json({
   limit: "5kb"
 }));
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept");
+  next();
+});
 
 const apiRateLimit = new RateLimit({
   windowMs: LINK_CREATE_RATE_LIMIT_INTERVAL * 1000,
