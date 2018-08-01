@@ -34,26 +34,33 @@
         <hr>
         <p>JSON request body parameters:</p>
         <ul>
+          <li><code>providerName</code>: The provider name field of the embed.</li>
+          <li><code>providerUrl</code>: The link associated with the provider name.</li>
+          <li><code>authorName</code>: The author name field of the embed.</li>
+          <li><code>authorUrl</code>: The link associated with the author name.</li>
           <li><code>title</code>: The title of the embed. Must be less than 256 characters.</li>
           <li><code>description</code>: The string that goes into the body of the embed. Must be less than 2048 characters.</li>
           <li><code>image</code>: A link to an image.</li>
-          <li><code>siteName</code>: The small text that goes above the title. Must be less than 256 characters.</li>
+          <li><code>type</code>: The type of embed.</li>
           <li><code>color</code>: The color of the embed, in <code>rrggbb</code> format (without the #). Must be exactly 6 characters long if used.</li>
+          <li><code>siteName</code> <strong>(DEPRECATED)</strong>: <strong>Use <code>providerName</code> instead.</strong> The small text that goes above the title. Must be less than 256 characters.</li>
         </ul>
+        <hr>
+        <p>Rate Limit: 10 per minute</p>
         <hr>
         <p>Returns a string (embed ID). The embed ID will only be valid for 5 minutes. Once sent in Discord, the embed will not change, but editing the message will delete the embed!</p>
       </div>
     </div>
     <div class="center roundedBox fullSizeContainer">
       <div class="textAlignLeft">
-        <h2>GET /e/:id</h2>
+        <h2>/e/:id</h2>
         <hr>
         <p>Route parameters:</p>
         <ul>
           <li><code>:id</code>: The ID of the embed.</li>
         </ul>
         <hr>
-        <p>Send this link into Discord to display the embed.</p>
+        <p>Send this link into Discord with an embed ID to display the embed.</p>
       </div>
     </div>
     <div class="center roundedBox fullSizeContainer">

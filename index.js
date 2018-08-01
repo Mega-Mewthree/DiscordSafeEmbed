@@ -22,6 +22,7 @@ const RateLimit = require('express-rate-limit');
 const htmlEncode = require("htmlencode").htmlEncode;
 
 const PORT = 8001;
+const WEBSITE_ROOT_URL = "https://em.my.to";
 const LINK_EXPIRE = 300; // Seconds
 const EXPIRED_LINK_DELETE_INTERVAL = 60; // Seconds
 const LINK_CREATE_RATE_LIMIT_INTERVAL = 60; // Seconds
@@ -71,8 +72,8 @@ if (global.gc) {
   setInterval(garbageCollect, GC_INTERVAL * 1000);
 }
 
-function generateEmbedHTML(embed) {
-  return `<!DOCTYPE html><html><head>${embed.title ? `<meta property="og:title" content="${htmlEncode(embed.title)}">` : ""}${embed.description ? `<meta property="og:description" content="${htmlEncode(embed.description)}">` : ""}${embed.image ? `<meta property="og:image" content="${htmlEncode(embed.image)}">` : ""}${embed.siteName ? `<meta property="og:site_name" content="${htmlEncode(embed.siteName)}">` : ""}${embed.color ? `<meta name="theme-color" content="#${embed.color}">` : ""}</head><body><script>location="/"</script></body></html>`;
+function generateEmbedHTML(embed, id) {
+  return `<!DOCTYPE html><html><head>${embed.title ? `<meta property="og:title" content="${htmlEncode(embed.title)}">` : ""}${embed.description ? `<meta property="og:description" content="${htmlEncode(embed.description)}">` : ""}${embed.image ? `<meta property="og:image" content="${htmlEncode(embed.image)}">` : ""}${embed.siteName ? `<meta property="og:site_name" content="${htmlEncode(embed.siteName)}">` : ""}${embed.color ? `<meta name="theme-color" content="#${embed.color}">` : ""}${id ? `<link type="application/json+oembed" href="${WEBSITE_ROOT_URL}/oembed/${id}.json">` : ""}</head><body><script>location="/"</script></body></html>`;
 }
 
 // https://lowrey.me/encoding-decoding-base-62-in-es6-javascript/
@@ -99,10 +100,10 @@ function* loopingCounter(min, max) {
   }
 }
 
-const linkCounter = loopingCounter(62 ** 3, 62 ** 4 - 1);
+const linkCounter = loopingCounter(0, 62 ** 4 - 1);
 
 function generateLink() {
-  return base62.encode(Date.now()) + base62.encode(((Math.random() * 238327) | 0)).padStart(3, "0") + base62.encode(linkCounter.next().value);
+  return base62.encode(Date.now()) + base62.encode(((Math.random() * 238327) | 0)).padStart(3, "0") + base62.encode(linkCounter.next().value).padStart(4, "0");
 }
 
 app.use(express.static("static"));
@@ -139,22 +140,35 @@ app.get("/manual", (req, res) => {
 
 app.get("/e/:id", (req, res) => {
   if (!links[req.params.id]) return res.status(404).send("Not Found");
-  res.send(generateEmbedHTML(links[req.params.id]));
+  res.send(generateEmbedHTML(links[req.params.id]), req.params.id);
+});
+
+app.get("/oembed/:id.json", (req, res) => {
+  if (!links[req.params.id]) return res.status(404).send("Not Found");
+  res.send(links[req.params.id].oembedJSON);
 });
 
 app.post("/api/v1/createEmbed", (req, res) => {
   if (typeof req.body !== "object") return;
   const link = generateLink();
   const embed = links[link] = {};
+  const oembed = {};
   if (req.body.title) embed.title = req.body.title;
   if (req.body.description) embed.description = req.body.description;
   if (req.body.image) embed.image = req.body.image;
-  if (req.body.siteName) embed.siteName = req.body.siteName;
+  if (req.body.siteName) oembed.provider_name = req.body.siteName;
   if (req.body.color) embed.color = req.body.color;
+  if (req.body.type) oembed.type = req.body.type;
+  if (req.body.authorName) oembed.author_name = req.body.authorName;
+  if (req.body.authorUrl) oembed.author_url = req.body.authorUrl;
+  if (req.body.providerName) oembed.provider_name = req.body.providerName;
+  if (req.body.providerUrl) oembed.provider_url = req.body.providerUrl;
   if (embed.title && embed.title.length > 256) return res.status(400).send("Bad Request");
-  if (embed.siteName && embed.siteName.length > 256) return res.status(400).send("Bad Request");
   if (embed.description && embed.description.length > 2048) return res.status(400).send("Bad Request");
   if (embed.color && (embed.color.length !== 6 || isNaN(parseInt(embed.color, 16)))) return res.status(400).send("Bad Request");
+  if (oembed.author_name && oembed.author_name.length > 256) return res.status(400).send("Bad Request");
+  if (oembed.provider_name && oembed.provider_name.length > 256) return res.status(400).send("Bad Request");
+  embed.oembedJSON = JSON.stringify(oembed);
   embed.expire = Date.now() + LINK_EXPIRE * 1000;
   res.send(link);
 });

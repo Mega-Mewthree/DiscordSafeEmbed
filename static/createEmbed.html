@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta property="og:title" content="DiscordSafeEmbed Creator">
+    <meta property="og:description" content="A safe Discord-ToS-compliant way to send embeds.">
+    <meta name="theme-color" content="#09306d">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>DiscordSafeEmbed Creator</title>
+  </head>
+  <body>
+    <div class="center">
+      <h1>Create an Embed</h1>
+    </div>
+    <div class="center roundedBox halfSizeContainer">
+      <form id="form" class="textAlignLeft">
+        <div id="embedOptions">
+          <div>
+            <label for="providerName">Provider Name:</label>
+            <input type="text" id="providerName" name="providerName" size="50" maxlength="256">
+          </div>
+          <div>
+            <label for="providerUrl">Provider URL:</label>
+            <input type="text" id="providerUrl" name="providerUrl" size="50">
+          </div>
+          <div>
+            <label for="authorName">Author Name:</label>
+            <input type="text" id="authorName" name="authorName" size="50" maxlength="256">
+          </div>
+          <div>
+            <label for="authorUrl">Author URL:</label>
+            <input type="text" id="authorUrl" name="authorUrl" size="50">
+          </div>
+          <div>
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" size="50" maxlength="256">
+          </div>
+          <div>
+            <label for="description" style="vertical-align: middle">Description:</label>
+            <textarea id="description" name="description" rows="5" cols="51" wrap="soft" maxlength="2048" style="vertical-align: middle"></textarea>
+          </div>
+          <div>
+            <label for="type">Type:</label>
+            <input type="text" id="type" name="type" size="50">
+          </div>
+          <div>
+            <label for="image">Image URL:</label>
+            <input type="text" id="image" name="image" size="50">
+          </div>
+          <div>
+            <label for="color">Color:</label>
+            <input type="color" id="color" name="color">
+          </div>
+        </div>
+        <div>
+          <input type="submit" id="submit" name="submit">
+        </div>
+      </form>
+    </div>
+    <div class="center roundedBox halfSizeContainer">
+      <div id="response" class="textAlignLeft">Submit the form to get an embed link.</div>
+    </div>
+    <div class="center roundedBox halfSizeContainer">
+      <div class="textAlignLeft">
+        <p>Source code: <a href="https://github.com/Mega-Mewthree/DiscordSafeEmbed">https://github.com/Mega-Mewthree/DiscordSafeEmbed</a></p>
+        <p>&copy; 2018 <a href="https://github.com/Mega-Mewthree">Mega_Mewthree</a></p>
+        <p>Open source and licensed under GNU v3.</p>
+      </div>
+    </div>
+    <script>
+      (() => {
+        const form = document.getElementById("form");
+        const providerName = document.getElementById("providerName");
+        const providerUrl = document.getElementById("providerUrl");
+        const authorName = document.getElementById("authorName");
+        const authorUrl = document.getElementById("authorUrl");
+        const title = document.getElementById("title");
+        const description = document.getElementById("description");
+        const type = document.getElementById("type");
+        const image = document.getElementById("image");
+        const color = document.getElementById("color");
+        const response = document.getElementById("response");
+        form.addEventListener("submit", e => {
+          e.preventDefault();
+          const obj = {};
+          if (providerName.value) obj.providerName = providerName.value;
+          if (providerUrl.value) obj.providerUrl = providerUrl.value;
+          if (authorName.value) obj.authorName = authorName.value;
+          if (authorUrl.value) obj.authorUrl = authorUrl.value;
+          if (title.value) obj.title = title.value;
+          if (description.value) obj.description = description.value;
+          if (type.value) obj.type = type.value;
+          if (image.value) obj.image = image.value;
+          if (color.value) color.type = color.value.slice(1);
+          fetch("http://127.0.0.1:8001/api/v1/createEmbed", {
+            method: "POST",
+            headers: {
+              "content-type": "application/json"
+            },
+            body: JSON.stringify(obj)
+          }).then(res => {
+            if (res.ok) {
+              res.text().then(text => {
+                response.innerText = `https://em.my.to/e/${text}`;
+              });
+            } else {
+              response.innerText = `${res.status} ${res.statusText}`;
+            }
+          }).catch(() => {
+            response.innerText = "An error has occurred while sending the request.";
+          });
+          return false;
+        });
+      })();
+    </script>
+  </body>
+</html>
