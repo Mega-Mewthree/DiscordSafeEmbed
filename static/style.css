@@ -1,0 +1,55 @@
+body {
+  background: rgb(9, 48, 109);
+  color: #FFF;
+  font: 1em sans-serif;
+}
+
+h2 {
+  margin-top: 0;
+}
+
+hr {
+  border-top: 4px solid rgba(255, 255, 255, 0.3);
+  border-bottom: 0;
+  border-left: 0;
+  border-right: 0;
+  border-radius: 2px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+a:visited {
+  color: #FFF;
+}
+
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+::-webkit-scrollbar {
+	width: 10px;
+}
+::-webkit-scrollbar-thumb {
+	background-color: rgb(18, 72, 164);
+  border-radius: 5px;
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.textAlignLeft {
+  text-align: left;
+}
+
+.roundedBox {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.fullSizeContainer {
+  width: 96%;
+  padding: 20px;
+  margin-bottom: 20px;
+}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta property="og:title" content="DiscordSafeEmbed">
+    <meta property="og:description" content="A safe Discord-ToS-compliant way to send embeds.">
+    <meta name="theme-color" content="#09306d">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>DiscordSafeEmbed API</title>
+  </head>
+  <body>
+    <div class="center">
+      <h1>DiscordSafeEmbed API</h1>
+    </div>
+    <div class="center roundedBox fullSizeContainer">
+      <div class="textAlignLeft">
+        <h2>GET /manual</h2>
+        <hr>
+        <p>Query string parameters:</p>
+        <ul>
+          <li><code>title</code>: The title of the embed. Must be less than 256 characters.</li>
+          <li><code>description</code>: The string that goes into the body of the embed. Must be less than 2048 characters.</li>
+          <li><code>image</code>: A link to an image.</li>
+          <li><code>siteName</code>: The small text that goes above the title. Must be less than 256 characters.</li>
+          <li><code>color</code>: The color of the embed, in <code>rrggbb</code> format (without the #). Must be exactly 6 characters long if used.</li>
+        </ul>
+        <hr>
+        <p>Embedding the manual link in Discord will create an embed with the given parameters.</p>
+      </div>
+    </div>
+    <div class="center roundedBox fullSizeContainer">
+      <div class="textAlignLeft">
+        <h2>POST /api/v1/createEmbed</h2>
+        <hr>
+        <p>JSON request body parameters:</p>
+        <ul>
+          <li><code>title</code>: The title of the embed. Must be less than 256 characters.</li>
+          <li><code>description</code>: The string that goes into the body of the embed. Must be less than 2048 characters.</li>
+          <li><code>image</code>: A link to an image.</li>
+          <li><code>siteName</code>: The small text that goes above the title. Must be less than 256 characters.</li>
+          <li><code>color</code>: The color of the embed, in <code>rrggbb</code> format (without the #). Must be exactly 6 characters long if used.</li>
+        </ul>
+        <hr>
+        <p>Returns a string (embed ID). The embed ID will only be valid for 5 minutes. Once sent in Discord, the embed will not change, but editing the message will delete the embed!</p>
+      </div>
+    </div>
+    <div class="center roundedBox fullSizeContainer">
+      <div class="textAlignLeft">
+        <h2>GET /e/:id</h2>
+        <hr>
+        <p>Route parameters:</p>
+        <ul>
+          <li><code>:id</code>: The ID of the embed.</li>
+        </ul>
+        <hr>
+        <p>Send this link into Discord to display the embed.</p>
+      </div>
+    </div>
+    <div class="center roundedBox fullSizeContainer">
+      <div class="textAlignLeft">
+        <p>Source code: <a href="https://github.com/Mega-Mewthree/DiscordSafeEmbed">https://github.com/Mega-Mewthree/DiscordSafeEmbed</a></p>
+        <p>&copy; 2018 <a href="https://github.com/Mega-Mewthree">Mega_Mewthree</a></p>
+        <p>Open source and licensed under GNU v3.</p>
+      </div>
+    </div>
+  </body>
+</html>
