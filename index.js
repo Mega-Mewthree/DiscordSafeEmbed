@@ -57,8 +57,8 @@ function deleteExpiredLinks() {
   // Most efficient JS loop
   let len = keys.length;
   while (len--) {
-    if (now > links[len].expire) {
-      delete links[len];
+    if (now > links[keys[len]].expire) {
+      delete links[keys[len]];
     }
   }
 }
