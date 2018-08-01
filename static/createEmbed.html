@@ -91,7 +91,7 @@
           if (description.value) obj.description = description.value;
           if (type.value) obj.type = type.value;
           if (image.value) obj.image = image.value;
-          if (color.value) color.type = color.value.slice(1);
+          if (color.value) obj.color = color.value.slice(1);
           fetch("/api/v1/createEmbed", {
             method: "POST",
             headers: {
