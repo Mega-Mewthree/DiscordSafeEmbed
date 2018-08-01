@@ -92,7 +92,7 @@
           if (type.value) obj.type = type.value;
           if (image.value) obj.image = image.value;
           if (color.value) color.type = color.value.slice(1);
-          fetch("http://127.0.0.1:8001/api/v1/createEmbed", {
+          fetch("/api/v1/createEmbed", {
             method: "POST",
             headers: {
               "content-type": "application/json"
