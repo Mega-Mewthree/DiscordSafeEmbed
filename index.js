@@ -1,18 +1,18 @@
 /*
-  Copyright (C) 2018 Mega_Mewthree
+Copyright (C) 2018 Mega_Mewthree
 
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 "use strict";
@@ -32,7 +32,9 @@ const app = express();
 
 app.disable("x-powered-by");
 app.enable("trust proxy"); // If running behind a reverse proxy, else comment out
-app.use(express.json({limit: "5kb"}));
+app.use(express.json({
+  limit: "5kb"
+}));
 
 const apiRateLimit = new RateLimit({
   windowMs: LINK_CREATE_RATE_LIMIT_INTERVAL * 1000,
@@ -70,8 +72,7 @@ function generateEmbedHTML(embed) {
 
 // https://lowrey.me/encoding-decoding-base-62-in-es6-javascript/
 const base62 = {
-  charset: "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    .split(""),
+  charset: "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""),
   encode: integer => {
     if (integer === 0) {
       return 0;
@@ -114,10 +115,10 @@ app.get("/manual", (req, res) => {
     if (req.query.siteName) siteName = req.query.siteName;
     if (req.query.color) color = req.query.color;
   }
-  if (title.length > 256) return res.status(400).send("Bad Request");
-  if (siteName.length > 256) return res.status(400).send("Bad Request");
-  if (description.length > 2048) return res.status(400).send("Bad Request");
-  if (color.length !== 6 || isNaN(parseInt(color, 16))) return res.status(400).send("Bad Request");
+  if (title && title.length > 256) return res.status(400).send("Bad Request");
+  if (siteName && siteName.length > 256) return res.status(400).send("Bad Request");
+  if (description && description.length > 2048) return res.status(400).send("Bad Request");
+  if (color && color.length !== 6 || isNaN(parseInt(color, 16))) return res.status(400).send("Bad Request");
   if (!title && !description) {
     title = "A website allowing you to send embeds in Discord."
     description = `Just use the query parameters "title" and "description".`;
@@ -145,10 +146,10 @@ app.post("/api/v1/createEmbed", (req, res) => {
   if (req.body.image) embed.image = req.body.image;
   if (req.body.siteName) embed.siteName = req.body.siteName;
   if (req.body.color) embed.color = req.body.color;
-  if (embed.title.length > 256) return res.status(400).send("Bad Request");
-  if (embed.siteName.length > 256) return res.status(400).send("Bad Request");
-  if (embed.description.length > 2048) return res.status(400).send("Bad Request");
-  if (embed.color.length !== 6 || isNaN(parseInt(embed.color, 16))) return res.status(400).send("Bad Request");
+  if (embed.title && embed.title.length > 256) return res.status(400).send("Bad Request");
+  if (embed.siteName && embed.siteName.length > 256) return res.status(400).send("Bad Request");
+  if (embed.description && embed.description.length > 2048) return res.status(400).send("Bad Request");
+  if (embed.color && embed.color.length !== 6 || isNaN(parseInt(embed.color, 16))) return res.status(400).send("Bad Request");
   embed.expire = Date.now() + LINK_EXPIRE * 1000;
   res.send(link);
 });
