@@ -12,6 +12,9 @@
     <div class="center">
       <h1>DiscordSafeEmbed API</h1>
     </div>
+    <div class="center roundedBox quarterSizeContainer">
+      <a class="abutton" href="createEmbed">Create an Embed</a>
+    </div>
     <div class="center roundedBox fullSizeContainer">
       <div class="textAlignLeft">
         <h2>GET /manual</h2>
@@ -34,9 +37,9 @@
         <hr>
         <p>JSON request body parameters:</p>
         <ul>
-          <li><code>providerName</code>: The provider name field of the embed.</li>
+          <li><code>providerName</code>: The provider name field of the embed. Must be less than 256 characters.</li>
           <li><code>providerUrl</code>: The link associated with the provider name.</li>
-          <li><code>authorName</code>: The author name field of the embed.</li>
+          <li><code>authorName</code>: The author name field of the embed. Must be less than 256 characters.</li>
           <li><code>authorUrl</code>: The link associated with the author name.</li>
           <li><code>title</code>: The title of the embed. Must be less than 256 characters.</li>
           <li><code>description</code>: The string that goes into the body of the embed. Must be less than 2048 characters.</li>

@@ -49,6 +49,17 @@ a:visited {
   border-radius: 5px;
 }
 
+.abutton {
+  background: rgb(18, 72, 164);
+  border-radius: 5px;
+  border-width: 3px;
+  border-style: solid;
+  border-color: #FFF;
+  color: #FFF;
+  padding: 5px;
+  text-decoration: none;
+}
+
 .center {
   margin-left: auto;
   margin-right: auto;
@@ -72,6 +83,12 @@ a:visited {
 
 .halfSizeContainer {
   width: 50%;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.quarterSizeContainer {
+  width: 25%;
   padding: 20px;
   margin-bottom: 20px;
 }
