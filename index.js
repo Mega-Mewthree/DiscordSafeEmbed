@@ -140,7 +140,7 @@ app.get("/manual", (req, res) => {
 
 app.get("/e/:id", (req, res) => {
   if (!links[req.params.id]) return res.status(404).send("Not Found");
-  res.send(generateEmbedHTML(links[req.params.id]), req.params.id);
+  res.send(generateEmbedHTML(links[req.params.id], req.params.id));
 });
 
 app.get("/oembed/:id.json", (req, res) => {
