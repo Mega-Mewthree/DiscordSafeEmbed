@@ -101,7 +101,7 @@
           }).then(res => {
             if (res.ok) {
               res.text().then(text => {
-                response.innerText = `https://em.my.to/e/${text}`;
+                response.innerText = `${window.location.origin}/e/${text}`;
               });
             } else {
               response.innerText = `${res.status} ${res.statusText}`;
